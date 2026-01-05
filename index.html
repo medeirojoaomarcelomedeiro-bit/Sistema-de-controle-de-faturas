@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Controle de Faturas</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Bibliotecas necessárias -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <!-- Cabeçalho -->
+        <div class="header-card">
+            <h1>Sistema de Controle de Faturas</h1>
+            
+            <div class="button-group">
+                <label class="btn btn-primary" id="uploadLabel">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <span id="uploadText">Importar Planilha</span>
+                    <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" style="display: none;">
+                </label>
+                
+                <button class="btn btn-success" id="exportBtn" style="display: none;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-15"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Exportar
+                </button>
+                
+                <button class="btn btn-danger" id="clearBtn" style="display: none;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Limpar Dados
+                </button>
+            </div>
+
+            <!-- Estatísticas -->
+            <div id="statsContainer" style="display: none;" class="stats-grid">
+                <div class="stat-card stat-total">
+                    <div class="stat-label">Total</div>
+                    <div class="stat-value" id="statTotal">0</div>
+                </div>
+                <div class="stat-card stat-paid">
+                    <div class="stat-label">Pagas</div>
+                    <div class="stat-value" id="statPaid">0</div>
+                </div>
+                <div class="stat-card stat-pending">
+                    <div class="stat-label">Pendentes</div>
+                    <div class="stat-value" id="statPending">0</div>
+                </div>
+                <div class="stat-card stat-late">
+                    <div class="stat-label">Atrasadas</div>
+                    <div class="stat-value" id="statLate">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div id="filtersContainer" style="display: none;" class="filters-card">
+            <div class="search-box">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Buscar...">
+            </div>
+            
+            <select id="filterSelect">
+                <option value="todos">Todos</option>
+                <option value="pago">Pago</option>
+                <option value="pendente">Pendente</option>
+                <option value="atrasado">atrasado</option>
+            </select>
+        </div>
+
+        <!-- Tabela -->
+        <div id="tableContainer" style="display: none;" class="table-card">
+            <div class="table-wrapper">
+                <table id="dataTable">
+                    <thead id="tableHead"></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+            <div id="noResults" style="display: none;" class="no-results">
+                Nenhum registro encontrado com os filtros aplicados
+            </div>
+        </div>
+
+        <!-- Estado vazio -->
+        <div id="emptyState" class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <h3>Nenhuma planilha importada</h3>
+            <p>Envie um arquivo CSV ou Excel para começar a organizar suas faturas</p>
+            <p class="small">Formatos aceitos: .csv, .xlsx, .xls</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
